@@ -2,37 +2,44 @@
  * Stickjaw v1.0.0 (https://xakplant.ru/stickjaw)
  * Copyright 2018 Boris Cherepanov
  * Copyright 2018 Xakplant.ru
- * Licensed under MIT ()
+ * Licensed under MIT (https://github.com/xakplant/stickjaw/blob/master/LICENSE)
  */
-function stickjawXakpl(){
-    $('[data-proportion-h]').height(function(){
-        var proportion = $(this).attr('data-proportion-h');
-        var width = $(this).outerWidth();
-        var height = width * proportion;
-        return height;
+function stickjawXakpl(){                
+    (function(){           
+        var element = document.querySelectorAll('[data-proportion-h]');
+        for(var i=0; i < element.length; i += 1){
+            var elementProportion = element[i].getAttribute('data-proportion-h')
+            var elementWidth = element[i].offsetWidth;
+            element[i].style.height = elementProportion * elementWidth + 'px';
+        }
+    }());
 
-    });
-    $('[data-proportion-w]').width(function(){
-        var proportion = $(this).attr('data-proportion-w');
-        var height = $(this).outerHeight();
-        var width = height * proportion;
-        return width;
-    });
-
-    $('[data-proportion-targer-h]').height(function(){
-        var proportion = $(this).attr('data-proportion-targer-h');
-        var tragetID = $(this).attr('data-proportion-target');
-        var tHeight = $('#'+tragetID+'').outerHeight();
-        var height = tHeight * proportion;
-        return height;
-    });
-    $('[data-proportion-targer-w]').width(function(){
-        var proportion = $(this).attr('data-proportion-targer-w');
-        var tragetID = $(this).attr('data-proportion-target');
-        var tWidth = $('#'+tragetID+'').outerWidth();
-        var width = tWidth * proportion;
-        return width;
-    });
+    (function(){           
+        var element = document.querySelectorAll('[data-proportion-w]');
+        for(var i=0; i < element.length; i += 1){
+            var elementProportion = element[i].getAttribute('data-proportion-w');
+            var elementHeight = element[i].offsetHeight;
+            element[i].style.width = elementProportion * elementHeight + 'px';
+        }
+    }());
+    (function(){
+        var element = document.querySelectorAll('[data-proportion-targer-h]');
+        for(var i=0; i<element.length; i += 1){
+            var elementProportion = element[i].getAttribute('data-proportion-targer-h');
+            var targetId = element[i].getAttribute('data-proportion-target');
+            var targetHeight = document.querySelector('#' + targetId).offsetHeight;
+            element[i].style.height = targetHeight * elementProportion + 'px';
+        }                     
+    }());
+    (function(){
+        var element = document.querySelectorAll('[data-proportion-targer-w]');
+        for(var i=0; i<element.length; i += 1){
+            var elementProportion = element[i].getAttribute('data-proportion-targer-w');
+            var targetId = element[i].getAttribute('data-proportion-target');
+            var targetWidth = document.querySelector('#' + targetId).offsetWidth;
+            element[i].style.width = targetWidth * elementProportion + 'px';
+        }                     
+    }());
 }
 stickjawXakpl();
 (function(){
@@ -46,21 +53,34 @@ var config = { attributes: true, childList: true, characterData: true, subtree: 
 observer.observe(target, config);
 }());
 
-
-
 /* Все боки родителями одного размера */
 (function(){ 
-    var s = document.querySelectorAll('[data-parent-alo="yes"] > *'), arr = [], max = 0;
-    for(var i=0; i < s.length; i += 1){
-      arr[i] = s[i].offsetHeight;
-    }
-    function getMaxOfArray(numArray) {
-      return Math.max.apply(null, numArray);
-    }
+    function fethChildStickjew(element){
+       var s = element;
+       for(var i=0; i < s.length; i += 1){
+          arr[i] = s[i].offsetHeight;
+        }
+        function getMaxOfArray(numArray) {
+          return Math.max.apply(null, numArray);
+        }
 
-    max = getMaxOfArray(arr);
-    for(var i=0; i<s.length; i += 1){
-          s[i].style.height = max + 'px';
-    }
+        max = getMaxOfArray(arr);
+        for(var i=0; i<s.length; i += 1){
+              s[i].style.height = max + 'px';
+        }
+   }
+               
+   var sjParent = document.querySelectorAll('[data-parent-alo]');
+   for(var j = 0; j < sjParent.length; j += 1){
+       if(sjParent[j].getAttribute('data-parent-alo') === 'default'){
+           var s = document.querySelectorAll('[data-parent-alo="default"] > *'), arr = [], max = 0;
+           fethChildStickjew(s);                 
+       }
+       else{
+           var childSelectorString = sjParent[j].getAttribute('data-parent-alo');
+           var s = document.querySelectorAll('[data-parent-alo] > ' + childSelectorString), arr = [], max = 0;
+           fethChildStickjew(s); 
+       }
+   }
 
 }());
