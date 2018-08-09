@@ -45,3 +45,22 @@ var observer = new MutationObserver(function(mutations) {
 var config = { attributes: true, childList: true, characterData: true, subtree: true };
 observer.observe(target, config);
 }());
+
+
+
+/* Все боки родителями одного размера */
+(function(){ 
+    var s = document.querySelectorAll('[data-parent-alo="yes"] > *'), arr = [], max = 0;
+    for(var i=0; i < s.length; i += 1){
+      arr[i] = s[i].offsetHeight;
+    }
+    function getMaxOfArray(numArray) {
+      return Math.max.apply(null, numArray);
+    }
+
+    max = getMaxOfArray(arr);
+    for(var i=0; i<s.length; i += 1){
+          s[i].style.height = max + 'px';
+    }
+
+}());
