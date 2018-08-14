@@ -42,16 +42,6 @@ function stickjawXakpl(){
     }());
 }
 stickjawXakpl();
-(function(){
-var target = document.body;
-var observer = new MutationObserver(function(mutations) {
-  mutations.forEach(function(mutation) {
-        stickjawXakpl();
-  });    
-});
-var config = { attributes: true, childList: true, characterData: true, subtree: true };
-observer.observe(target, config);
-}());
 
 /* Все боки родителями одного размера */
 (function(){ 
