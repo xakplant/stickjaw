@@ -16,6 +16,7 @@ var SJ = function(Object){
     this.rawProportionTarget = SJ_PROPORTION_TARGET;
     this.proportionTarget = this.rawProportionTarget.substring(1,this.rawProportionTarget.length-1);
     this.aloRawSelector = SJ_ALO_SELECTOR;
+    this.switch = false;
     
     this.Init(this.settings);
     if(Object.settings.windowResize != undefined && Object.settings.windowResize === true){
@@ -25,56 +26,83 @@ var SJ = function(Object){
     
 }
 
-SJ.prototype.Init = function(Object){
-    if(Object != undefined){
+SJ.prototype.Init = function(obj){
+    if(obj != undefined){
         console.log('SJ options mode');
         
-        if( Object.options.hlw != undefined && Object.options.hlw === true  ){
+
+       var keys = Object.keys(obj.options);
+        
+        SJ = this;
+        for(var i = 0; i < keys.length; i += 1){
+            l = keys[i];
+            SJ[l]();
+        }
+        
+        /*if( Object.options.hlw != undefined && Object.options.hlw === true  ){
            this.hlw();
-        }/* if hlw*/
+        }*//* if hlw*/
         
-        if( Object.options.wlh != undefined && Object.options.wlh === true  ){
+        /*if( Object.options.wlh != undefined && Object.options.wlh === true  ){
            this.wlh();
-        }/* if wlh*/
+        }*//* if wlh*/
         
-        if( Object.options.hlt != undefined && Object.options.hlt === true  ){
+        /*if( Object.options.hlt != undefined && Object.options.hlt === true  ){
            this.hlt();
-        }/* if hlt*/
-        if( Object.options.hlt != undefined && Object.options.hlt === true  ){
+        }*//* if hlt*/
+        /*if( Object.options.hlt != undefined && Object.options.hlt === true  ){
            this.wlt();
-        }/* if wlt*/
-        if ( Object.options.alo != undefined && Object.options.alo === true){
+        }*//* if wlt*/
+        /*if ( Object.options.alo != undefined && Object.options.alo === true){
             this.alo();
-        }/* if alo */
+        }*//* if alo */
         
     }/* Первый if */
 }
 
 SJ.prototype.hlw = function(){
+    
     this.selector = this.hlwRawSelector.substring(1,this.hlwRawSelector.length-1);
     this.list = document.querySelectorAll(this.hlwRawSelector);
+
+
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){
-        this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
+        if(this.list[i].switch !== true){
+            this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
+            this.list[i].switch = true;
+        } else {
+            console.log(new Error('ошибка в Stickjaw hlw из-за вызова ' + this.event + ' в элементе: '));
+            console.log(this.list[i]);
+        }
     }
     this.event = 'hlw';
     return this;
+
 }
 SJ.prototype.wlh = function(){
     this.selector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1);
     this.list = document.querySelectorAll(this.wlhRawSelector);
+
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){
-        this.list[i].style.width = this.list[i].offsetHeight * this.list[i].getAttribute(this.selector) + 'px';
+        if(this.list[i].switch !== true){
+            this.list[i].style.width = this.list[i].offsetHeight * this.list[i].getAttribute(this.selector) + 'px';
+            this.list[i].switch = true;
+        } else {
+            console.log(this.list[i]);
+            console.log(new Error('ошибка в Stickjaw wlh из-за вызова ' + this.event + ' в элементе: '));
+            
+        }
     }
     this.event = 'wlh';
     return this;
+
 }
 SJ.prototype.hlt = function(){
     this.selector = this.hltRawSelector.substring(1,this.hltRawSelector.length-1);
     this.list = document.querySelectorAll(this.hltRawSelector);
     this.length = this.list.length;
-    
     for(var i=0; i < this.length; i += 1){
         SJ_targetId = this.list[i].getAttribute(this.proportionTarget);        
         SJ_targetHeight = document.querySelector('#' + SJ_targetId).offsetHeight;

@@ -8,7 +8,7 @@
     </style>
     <body>
         <div data-parent-alo="default">
-            <div id="appones" data-proportion-h="2" style="width:120px; background:#333;"></div>
+            <div id="appones" data-proportion-h="2" data-proportion-w="4" style="width:120px; background:#333;"></div>
             <div id="appone" data-proportion-w="4" style="height:120px; background:#333;"></div>
 
             <div data-proportion-targer-h="1" data-proportion-target="appone" style="width:120px; background:#333;"></div>
@@ -23,6 +23,19 @@
         </div>
         <script src="util.js"></script>
         <script>
+            /*var SJ_init = {
+                options: {
+                    hlw: true,
+                    wlh: true,
+                    hlt: true,
+                    wlt: true,
+                    alo: true,
+                },
+                settings: {
+                    windowResize: true
+                }
+            }*/
+            
             var SJ_init = {
                 options: {
                     hlw: true,
@@ -35,6 +48,7 @@
                     windowResize: true
                 }
             }
+            
             var e = new SJ(SJ_init);
         </script>
     </body>
