@@ -19,9 +19,14 @@ var SJ = function(Object){
     this.switch = false;
     
     this.Init(this.settings);
-    if(Object.settings.windowResize != undefined && Object.settings.windowResize === true){
+    
+    if(Object != undefined){
+        if(Object.settings.windowResize !== undefined && Object.settings.windowResize === true){
          this.resizeWindow();
+        }
     }
+    
+    
    
     
 }
@@ -38,26 +43,15 @@ SJ.prototype.Init = function(obj){
             l = keys[i];
             SJ[l]();
         }
-        
-        /*if( Object.options.hlw != undefined && Object.options.hlw === true  ){
-           this.hlw();
-        }*//* if hlw*/
-        
-        /*if( Object.options.wlh != undefined && Object.options.wlh === true  ){
-           this.wlh();
-        }*//* if wlh*/
-        
-        /*if( Object.options.hlt != undefined && Object.options.hlt === true  ){
-           this.hlt();
-        }*//* if hlt*/
-        /*if( Object.options.hlt != undefined && Object.options.hlt === true  ){
-           this.wlt();
-        }*//* if wlt*/
-        /*if ( Object.options.alo != undefined && Object.options.alo === true){
-            this.alo();
-        }*//* if alo */
-        
+                
     }/* Первый if */
+    else{
+        this.hlw();
+        this.wlh();
+        this.hlt();
+        this.wlt();
+        this.alo();
+    }/* Первый else */
 }
 
 SJ.prototype.hlw = function(){
