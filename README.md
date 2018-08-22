@@ -113,6 +113,6 @@ targetID - это идентификатор элемента относител
 
 <div data-proportion-targer-w="1" data-proportion-target="targetID" style="height:120px; background:#333;"></div>
 
-<div id="targetID" width="100px"></div><!-- Блок относительно которого мы выставляем высоту -->
+<div id="targetID" width="100px"></div><!-- Блок относительно которого мы выставляем ширину -->
 
 ```
