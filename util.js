@@ -1,3 +1,9 @@
+/*!
+ * Stickjaw v1.0.0 (https://xakplant.ru/stickjaw)
+ * Copyright 2018 Boris Cherepanov
+ * Copyright 2018 Xakplant.ru
+ * Licensed under MIT (https://github.com/xakplant/stickjaw/blob/master/LICENSE)
+ */
 const SJ_HLW_SELECTOR = '[data-proportion-h]';
 const SJ_WLH_SELECTOR = '[data-proportion-w]';
 const SJ_HLT_SELECTOR = '[data-proportion-targer-h]';
