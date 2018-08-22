@@ -39,16 +39,25 @@ var SJ = function(Object){
 
 SJ.prototype.Init = function(obj){
     if(obj != undefined){
-        console.log('SJ options mode');
+       
+        if(obj.options != undefined){
+            
+            var keys = Object.keys(obj.options);
         
-
-       var keys = Object.keys(obj.options);
-        
-        SJ = this;
-        for(var i = 0; i < keys.length; i += 1){
-            l = keys[i];
-            SJ[l]();
+            SJ = this;
+            for(var i = 0; i < keys.length; i += 1){
+                l = keys[i];
+                SJ[l]();
+            } 
+        } else {
+            this.hlw();
+            this.wlh();
+            this.hlt();
+            this.wlt();
+            this.alo();
         }
+
+       
                 
     }/* Первый if */
     else{
@@ -67,14 +76,9 @@ SJ.prototype.hlw = function(){
 
 
     this.length = this.list.length;
-    for(var i=0; i < this.length; i += 1){
-        if(this.list[i].switch !== true){
-            this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
-            this.list[i].switch = true;
-        } else {
-            console.log(new Error('ошибка в Stickjaw hlw из-за вызова ' + this.event + ' в элементе: '));
-            console.log(this.list[i]);
-        }
+    for(var i=0; i < this.length; i += 1){        
+        this.dadgerSelector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1)
+        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.log('%c' + new Error('Есть cпротиворечивый селектор ' + this.dadgerSelector) , 'color: red') :  this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
     }
     this.event = 'hlw';
     return this;
@@ -83,17 +87,10 @@ SJ.prototype.hlw = function(){
 SJ.prototype.wlh = function(){
     this.selector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1);
     this.list = document.querySelectorAll(this.wlhRawSelector);
-
     this.length = this.list.length;
-    for(var i=0; i < this.length; i += 1){
-        if(this.list[i].switch !== true){
-            this.list[i].style.width = this.list[i].offsetHeight * this.list[i].getAttribute(this.selector) + 'px';
-            this.list[i].switch = true;
-        } else {
-            console.log(this.list[i]);
-            console.log(new Error('ошибка в Stickjaw wlh из-за вызова ' + this.event + ' в элементе: '));
-            
-        }
+    for(var i=0; i < this.length; i += 1){       
+        this.dadgerSelector = this.hlwRawSelector.substring(1,this.hlwRawSelector.length-1) 
+        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.log('%c' + new Error('Есть противоречивый селектор ' + this.dadgerSelector), 'color: red') : this.list[i].style.width = this.list[i].offsetHeight * this.list[i].getAttribute(this.selector) + 'px';
     }
     this.event = 'wlh';
     return this;
