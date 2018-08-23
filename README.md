@@ -116,3 +116,46 @@ targetID - это идентификатор элемента относител
 <div id="targetID" width="100px"></div><!-- Блок относительно которого мы выставляем ширину -->
 
 ```
+
+### Сделать высоту всех элементов одинаковой
+
+Stickjaw умеет делать одинаковую высоту всех блоков в у родителя одинаковой. Чтобы это сделать нужно у родителя в атрибутах указа:
+
+В случает если "дети" блоки не имееют вложенности
+>data-parent-alo="default"
+
+Пример
+
+```HTML
+
+<div data-parent-alo="default">
+    <div class="child"></div>
+    <div class="child"></div>
+    <div class="child"></div>
+</div>
+
+
+```
+
+Если дети имеют много уровней вложенности нужно указать цепочку селекторов после родителя включая селекторы детей. 
+
+Пример
+
+```HTML
+<div class="row" data-parent-alo=".col-lg-6 .card">
+    <div class="col-lg-6">
+        <div class="card">content 1</div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">content 2</div>
+    </div>
+    <div class="col-lg-6">
+        <div class="card">content 3</div>
+    </div>
+</div>
+```
+>data-parent-alo="цепочка селекторов после родителя включая селектор ребёнка"
+
+## PS
+
+Очень надеюсь, что вам, пригодиться моя библиотека.
