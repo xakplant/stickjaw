@@ -57,7 +57,7 @@ var SJ = function(Object){
 }
 
 SJ.prototype.Init = function(obj){
-    console.log('start');
+
     if(obj != undefined){
        
         if(obj.options != undefined){
@@ -102,12 +102,10 @@ SJ.prototype.Init = function(obj){
 }
 SJ.prototype.hlwMethodElement = function(element, proportions) {
     element.style.height = element.offsetWidth * proportions + 'px';
-    console.log(element);
 }
 SJ.prototype.hlwMethod = function(elementId, proportions) {
     if(elementId !== null){
         var element = document.getElementById(elementId);
-        console.log(element);
         this.hlwMethodElement(element, proportions);
     }
 }
@@ -240,8 +238,6 @@ SJ.prototype.owlt = function(){
 }
 SJ.prototype.loop = function(object){
     if(object != null){
-        
-        console.log(object);
         object.map(function(element){
             var strFn = element.method + 'Method';
             SJ[strFn](element.currentTarget, element.proportion);
