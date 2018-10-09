@@ -19,6 +19,8 @@ const SJ_ALO_SELECTOR = '[data-parent-alo]';
 var SJ_targetId, SJ_targetHeight, SJ_targetWidth, SJ_arr = [];
 var SJ = function(Object){
     
+    
+    
     this.settings = Object;
     
     this.hlwRawSelector = SJ_HLW_SELECTOR;
@@ -55,6 +57,7 @@ var SJ = function(Object){
 }
 
 SJ.prototype.Init = function(obj){
+    console.log('start');
     if(obj != undefined){
        
         if(obj.options != undefined){
@@ -97,6 +100,19 @@ SJ.prototype.Init = function(obj){
         this.owlt();
     }/* Первый else */
 }
+SJ.prototype.hlwMethodElement = function(element, proportions) {
+    element.style.height = element.offsetWidth * proportions + 'px';
+    console.log(element);
+}
+SJ.prototype.hlwMethod = function(elementId, proportions) {
+    if(elementId !== null){
+        var element = document.getElementById(elementId);
+        console.log(element);
+        this.hlwMethodElement(element, proportions);
+    }
+}
+
+
 
 
 SJ.prototype.hlw = function(){
@@ -108,12 +124,26 @@ SJ.prototype.hlw = function(){
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){        
         this.dadgerSelector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1)
-        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.log('%c' + new Error('Есть cпротиворечивый селектор ' + this.dadgerSelector) , 'color: red') :  this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
+        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.log('%c' + new Error('Есть противоречивый селектор ' + this.dadgerSelector) , 'color: red') :  this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
     }
     this.event = 'hlw';
     return this;
 
 }
+
+
+SJ.prototype.wlhMethodElement = function(element, proportions) {
+    element.style.width = element.offsetHeight * proportions + 'px';
+}
+SJ.prototype.wlhMethod = function(elementId, proportions) {
+    if(elementId !== null){
+        var element = document.getElementById(elementId);
+        this.wlhMethodElement(element, proportions);
+    }
+}
+
+
+
 SJ.prototype.wlh = function(){
     this.selector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1);
     this.list = document.querySelectorAll(this.wlhRawSelector);
@@ -125,6 +155,9 @@ SJ.prototype.wlh = function(){
     this.event = 'wlh';
     return this;
 
+}
+SJ.prototype.hltMethod = function(element) {
+    
 }
 SJ.prototype.hlt = function(){
     this.selector = this.hltRawSelector.substring(1,this.hltRawSelector.length-1);
@@ -205,15 +238,33 @@ SJ.prototype.owlt = function(){
     }
     return this
 }
+SJ.prototype.loop = function(object){
+    if(object != null){
+        
+        console.log(object);
+        object.map(function(element){
+            var strFn = element.method + 'Method';
+            SJ[strFn](element.currentTarget, element.proportion);
+        });
+        
+    } else {
+       this.Init(this.settings); 
+    }
+    
+}
 
 
 // Settings section
 SJ.prototype.resizeWindow = function(){
-    
-    var SJ = this;
+
     SJ_windowObject = this.settings;
     function SJ_windowListenFunction(){
         SJ.Init(SJ_windowObject);
     }    
     window.addEventListener('resize', SJ_windowListenFunction, SJ, SJ_windowObject);
+}
+
+// Debug section
+SJ.prototype.test = function(object){
+    console.log(object);
 }
