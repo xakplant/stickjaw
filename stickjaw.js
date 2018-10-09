@@ -9,6 +9,12 @@ const SJ_WLH_SELECTOR = '[data-proportion-w]';
 const SJ_HLT_SELECTOR = '[data-proportion-targer-h]';
 const SJ_WLT_SELECTOR = '[data-proportion-targer-w]';
 const SJ_PROPORTION_TARGET = '[data-proportion-target]';
+
+const SJ_OHLT_SELECTOR = '[data-proportion-targer-oh]';
+const SJ_OWLT_SELECTOR = '[data-proportion-targer-ow]';
+const SJ_PROPORTION_TARGET_OH = '[data-proportion-target-oh]';
+const SJ_PROPORTION_TARGET_OW = '[data-proportion-target-ow]';
+
 const SJ_ALO_SELECTOR = '[data-parent-alo]';
 var SJ_targetId, SJ_targetHeight, SJ_targetWidth, SJ_arr = [];
 var SJ = function(Object){
@@ -20,7 +26,21 @@ var SJ = function(Object){
     this.hltRawSelector = SJ_HLT_SELECTOR;
     this.wltRawSelector = SJ_WLT_SELECTOR;
     this.rawProportionTarget = SJ_PROPORTION_TARGET;
+    
+    this.ohltRawSelector = SJ_OHLT_SELECTOR;
+    this.rawProportionTargetOH = SJ_PROPORTION_TARGET_OH;
+    
+    this.owltRawSelector = SJ_OWLT_SELECTOR;
+    this.rawProportionTargetOW = SJ_PROPORTION_TARGET_OW;
+    
+
+    
     this.proportionTarget = this.rawProportionTarget.substring(1,this.rawProportionTarget.length-1);
+    
+    this.proportionTargetOH = this.rawProportionTargetOH.substring(1,this.rawProportionTargetOH.length-1);
+    this.proportionTargetOW = this.rawProportionTargetOW.substring(1,this.rawProportionTargetOW.length-1);
+    
+    
     this.aloRawSelector = SJ_ALO_SELECTOR;
     this.switch = false;
     
@@ -40,17 +60,27 @@ SJ.prototype.Init = function(obj){
         if(obj.options != undefined){
             
             var keys = Object.keys(obj.options);
+            
+
         
             SJ = this;
+            
             for(var i = 0; i < keys.length; i += 1){
-                l = keys[i];
-                SJ[l]();
+                    l = keys[i];
+
+                if(obj.options[l] === true){
+                   SJ[l]();
+               }
+
+
             } 
         } else {
             this.hlw();
             this.wlh();
             this.hlt();
             this.wlt();
+            this.ohlt();
+            this.owlt();
             this.alo();
         }
 
@@ -63,6 +93,8 @@ SJ.prototype.Init = function(obj){
         this.hlt();
         this.wlt();
         this.alo();
+        this.ohlt();
+        this.owlt();
     }/* Первый else */
 }
 
@@ -149,6 +181,33 @@ SJ.prototype.alo = function(){
         } 
     return this;
 }
+SJ.prototype.ohlt = function() {
+    this.selector = this.ohltRawSelector.substring(1,this.ohltRawSelector.length-1);
+    this.list = document.querySelectorAll(this.ohltRawSelector);
+    this.length = this.list.length;
+    for(var i=0; i < this.length; i += 1){
+        SJ_targetId = this.list[i].getAttribute(this.proportionTargetOH);        
+        SJ_targetHeight = document.querySelector('#' + SJ_targetId).offsetHeight;
+        this.list[i].style.height = SJ_targetHeight * this.list[i].getAttribute(this.selector) + 'px';
+    }
+    return this;
+}
+
+SJ.prototype.owlt = function(){
+    this.selector = this.owltRawSelector.substring(1,this.owltRawSelector.length-1);
+    this.list = document.querySelectorAll(this.owltRawSelector);
+    this.length = this.list.length;
+    
+    for(var i=0; i < this.length; i += 1){
+        SJ_targetId = this.list[i].getAttribute(this.proportionTargetOW);
+        SJ_targetWidth = document.querySelector('#' + SJ_targetId).offsetWidth;
+        this.list[i].style.width = SJ_targetWidth * this.list[i].getAttribute(this.selector) + 'px';
+    }
+    return this
+}
+
+
+// Settings section
 SJ.prototype.resizeWindow = function(){
     
     var SJ = this;

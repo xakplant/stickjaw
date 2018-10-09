@@ -21,7 +21,11 @@
             <div data-proportion-h="1" style="width:30%; background:#333;"></div>
             <div data-proportion-h="1" style="width:30%; background:#333;"></div>
         </div>
-        <script src="stickjaw.min.js"></script>
+        
+        <div id="sT" style="height: 200px"></div>
+        <div style="width: 20px; background-color: aqua" data-proportion-targer-oh="1" data-proportion-target-oh="sT" data-proportion-targer-ow="1" data-proportion-target-ow="appones"></div>
+        
+        <script src="stickjaw.js"></script>
         <script>
             /*var SJ_init = {
                 options: {
@@ -43,17 +47,15 @@
                     hlt: true,
                     wlt: true,
                     alo: true,
+                    ohlt: true,
+                    owlt: true
                 },
                 settings: {
                     windowResize: true
                 }
             }
             
-            var e = new SJ({
-                settings: {
-                    windowResize: true
-                }
-            });
+            var e = new SJ(SJ_init);
         </script>
     </body>
 </html>
