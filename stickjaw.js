@@ -46,6 +46,14 @@ var SJ = function(Object){
     this.aloRawSelector = SJ_ALO_SELECTOR;
     this.switch = false;
     
+    this.hystory = [];
+    
+    if(Object != undefined){
+        if(Object.settings.writeHystory !== undefined && Object.settings.writeHystory === true){
+         this.resizeWindow();
+        }
+    }
+    
     this.Init(this.settings);
     
     if(Object != undefined){
@@ -53,8 +61,11 @@ var SJ = function(Object){
          this.resizeWindow();
         }
     }
+    
+    return this;
  
 }
+
 
 SJ.prototype.Init = function(obj){
 
@@ -99,6 +110,7 @@ SJ.prototype.Init = function(obj){
         this.ohlt();
         this.owlt();
     }/* Первый else */
+    
 }
 SJ.prototype.hlwMethodElement = function(element, proportions) {
     element.style.height = element.offsetWidth * proportions + 'px';
@@ -117,14 +129,17 @@ SJ.prototype.hlw = function(){
     
     this.selector = this.hlwRawSelector.substring(1,this.hlwRawSelector.length-1);
     this.list = document.querySelectorAll(this.hlwRawSelector);
-
+    this.event = 'hlw';
 
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){        
         this.dadgerSelector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1)
-        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.log('%c' + new Error('Есть противоречивый селектор ' + this.dadgerSelector) , 'color: red') :  this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
+        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.error('Нельзя использовать ' + this.dadgerSelector) :  this.list[i].style.height = this.list[i].offsetWidth * this.list[i].getAttribute(this.selector) + 'px';
+        
+        this.writeHystory(this.list[i], this.event, this.list[i].getAttribute(this.selector), null);
+        
     }
-    this.event = 'hlw';
+    
     return this;
 
 }
@@ -145,38 +160,62 @@ SJ.prototype.wlhMethod = function(elementId, proportions) {
 SJ.prototype.wlh = function(){
     this.selector = this.wlhRawSelector.substring(1,this.wlhRawSelector.length-1);
     this.list = document.querySelectorAll(this.wlhRawSelector);
+    this.event = 'wlh';
+    
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){       
         this.dadgerSelector = this.hlwRawSelector.substring(1,this.hlwRawSelector.length-1) 
-        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.log('%c' + new Error('Есть противоречивый селектор ' + this.dadgerSelector), 'color: red') : this.list[i].style.width = this.list[i].offsetHeight * this.list[i].getAttribute(this.selector) + 'px';
+        this.list[i].getAttribute(this.dadgerSelector) != undefined ? console.error('Нельзя использовать ' + this.dadgerSelector) : this.list[i].style.width = this.list[i].offsetHeight * this.list[i].getAttribute(this.selector) + 'px';
+        
+        this.writeHystory(this.list[i], this.event, this.list[i].getAttribute(this.selector), null);
     }
-    this.event = 'wlh';
+    
     return this;
 
 }
-SJ.prototype.hltMethod = function(element) {
-    
+
+SJ.prototype.hltMethod = function(curentElement, proportions, targetElement) {
+    element = document.getElementById(curentElement);
+    targetHeight = document.getElementById(targetElement).offsetHeight;
+    element.style.height = targetHeight * proportions + 'px';
 }
 SJ.prototype.hlt = function(){
     this.selector = this.hltRawSelector.substring(1,this.hltRawSelector.length-1);
     this.list = document.querySelectorAll(this.hltRawSelector);
+    this.event = 'hlt';
+    
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){
         SJ_targetId = this.list[i].getAttribute(this.proportionTarget);        
         SJ_targetHeight = document.querySelector('#' + SJ_targetId).offsetHeight;
         this.list[i].style.height = SJ_targetHeight * this.list[i].getAttribute(this.selector) + 'px';
+        
+        this.writeHystory(this.list[i], this.event, this.list[i].getAttribute(this.selector), document.querySelector('#' + SJ_targetId));
+        
     }
     return this;
+}
+
+
+
+SJ.prototype.wltMethod = function(curentElement, proportions, targetElement) {
+    element = document.getElementById(curentElement);
+    targetHeight = document.getElementById(targetElement).offsetWidth;
+    element.style.width = targetHeight * proportions + 'px';
 }
 SJ.prototype.wlt = function(){
     this.selector = this.wltRawSelector.substring(1,this.wltRawSelector.length-1);
     this.list = document.querySelectorAll(this.wltRawSelector);
+    this.event = 'wlt';
+    
     this.length = this.list.length;
     
     for(var i=0; i < this.length; i += 1){
         SJ_targetId = this.list[i].getAttribute(this.proportionTarget);
         SJ_targetWidth = document.querySelector('#' + SJ_targetId).offsetWidth;
         this.list[i].style.width = SJ_targetWidth * this.list[i].getAttribute(this.selector) + 'px';
+        
+        this.writeHystory(this.list[i], this.event, this.list[i].getAttribute(this.selector), document.querySelector('#' + SJ_targetId));
     }
     return this
 }
@@ -196,6 +235,8 @@ SJ.prototype.alo = function(){
             max = getMaxOfArray(SJ_arr);
             for(var i=0; i<s.length; i += 1){
                   s[i].style.height = max + 'px';
+                
+                SJ.writeHystory(s[i], 'alo', max + 'px', null);
             }
        }
         var sjParent = this.list;
@@ -215,11 +256,16 @@ SJ.prototype.alo = function(){
 SJ.prototype.ohlt = function() {
     this.selector = this.ohltRawSelector.substring(1,this.ohltRawSelector.length-1);
     this.list = document.querySelectorAll(this.ohltRawSelector);
+    this.event = 'ohlt'
+    
     this.length = this.list.length;
     for(var i=0; i < this.length; i += 1){
         SJ_targetId = this.list[i].getAttribute(this.proportionTargetOH);        
         SJ_targetHeight = document.querySelector('#' + SJ_targetId).offsetHeight;
         this.list[i].style.height = SJ_targetHeight * this.list[i].getAttribute(this.selector) + 'px';
+        
+        this.writeHystory(this.list[i], this.event, this.list[i].getAttribute(this.selector), document.querySelector('#' + SJ_targetId));
+        
     }
     return this;
 }
@@ -227,12 +273,16 @@ SJ.prototype.ohlt = function() {
 SJ.prototype.owlt = function(){
     this.selector = this.owltRawSelector.substring(1,this.owltRawSelector.length-1);
     this.list = document.querySelectorAll(this.owltRawSelector);
+    this.event = 'owtl'
+    
     this.length = this.list.length;
     
     for(var i=0; i < this.length; i += 1){
         SJ_targetId = this.list[i].getAttribute(this.proportionTargetOW);
         SJ_targetWidth = document.querySelector('#' + SJ_targetId).offsetWidth;
         this.list[i].style.width = SJ_targetWidth * this.list[i].getAttribute(this.selector) + 'px';
+        
+        this.writeHystory(this.list[i], this.event, this.list[i].getAttribute(this.selector), document.querySelector('#' + SJ_targetId));
     }
     return this
 }
@@ -240,7 +290,7 @@ SJ.prototype.loop = function(object){
     if(object != null){
         object.map(function(element){
             var strFn = element.method + 'Method';
-            SJ[strFn](element.currentTarget, element.proportion);
+            SJ[strFn](element.currentTarget, element.proportion, element.target);
         });
         
     } else {
@@ -260,7 +310,17 @@ SJ.prototype.resizeWindow = function(){
     window.addEventListener('resize', SJ_windowListenFunction, SJ, SJ_windowObject);
 }
 
-// Debug section
-SJ.prototype.test = function(object){
-    console.log(object);
+
+SJ.prototype.writeHystory = function(sj_element, sj_methode, sj_proportion, sj_target){
+    
+    if(this.settings.settings.writeHystory !== undefined && this.settings.settings.writeHystory === true){
+        this.hystory.push(
+            {
+                element: sj_element,
+                methode: sj_methode,
+                proportion: sj_proportion,
+                target: sj_target
+            }
+        );
+    }
 }
