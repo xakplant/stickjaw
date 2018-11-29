@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+    </head>
+    <style>
+        div { display: inline-block;}
+    </style>
+    <body>
+        <div data-parent-alo="default">
+            <div id="appones" data-proportion-h="1" style="width:120px; background:#333;"></div>
+            <div id="appone" data-proportion-w="2" style="height:120px; background:#333;"></div>
+
+            <div data-proportion-targer-h="1" data-proportion-target="appone" style="width:120px; background:#333;"></div>
+
+            <div data-proportion-targer-w="1" data-proportion-target="appone" style="height:120px; background:#333;"></div>
+        </div>
+        
+        <div style="widht:100%; display:block;">
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        
+        <div id="sT" style="height: 200px"></div>
+        <div style="width: 20px; background-color: aqua" data-proportion-targer-oh="1" data-proportion-target-oh="sT" data-proportion-targer-ow="1" data-proportion-target-ow="appones"></div>
+        
+        <div id="my" style="width: 20px; background-color: aqua"></div>
+        
+        <script src="SJ_new.js"></script>
+        <script>
+           new SJ(); 
+        </script>
+    </body>
+</html>
