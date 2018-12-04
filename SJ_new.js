@@ -4,6 +4,7 @@
  * Copyright 2018 Xakplant.ru
  * Licensed under MIT (https://github.com/xakplant/stickjaw/blob/master/LICENSE)
  */
+console.time('SJ');
 
 var SJ = function(Object){
     this.selectors = {
@@ -11,8 +12,7 @@ var SJ = function(Object){
        wlh : '[data-proportion-w]',
        hlt : '[data-proportion-targer-h]',
        wlt : '[data-proportion-targer-w]',
-       /*
-       alo : '[data-parent-alo]'*/
+       alo : '[data-parent-alo]'
     };
     this.tSelectors = {
         t : 'data-proportion-target',
@@ -23,6 +23,9 @@ var SJ = function(Object){
     this.getSelectorKeys();
     this.getCSelectors();
     this.getElements();
+    
+    this.init();
+    this.windowResize();
     console.log(this);
 }
 SJ.prototype.getSelectorKeys = function(){
@@ -51,12 +54,25 @@ SJ.prototype.getElements = function(){
 SJ.prototype.createDataModel = function(NodeList, Methode){
    let dataModelArray = new Array();
     NodeList.forEach((e)=>{
-        let o = {
-            elemet: e,
-            methode: Methode,
-            proportion: e.getAttribute(this.cSelectors[Methode]),
-            target: this.getTargetByElementMethode(e, Methode)
+        
+        let o;
+        if(Methode === 'alo'){
+            o = {
+                stack: this.getAloStack(e),
+                context: e
+            }
+        } else {
+           o = {
+                elemet: e,
+                methode: Methode,
+                proportion: e.getAttribute(this.cSelectors[Methode]),
+                target: this.getTargetByElementMethode(e, Methode)
+            } 
         }
+        
+        
+        
+        
         dataModelArray.push(o);
     });
     return dataModelArray;
@@ -72,3 +88,57 @@ SJ.prototype.getTargetByElementMethode = function(el, Methode){
         return document.getElementById(el.getAttribute(this.tSelectors['wt']));
     }
 }
+SJ.prototype.getAloStack = function(e){   
+    return Array.from(e.children);   
+}
+SJ.prototype.init = function(){
+    let obj = Object.keys(this.sj);
+    obj.map((ob)=>{
+        this.sj[ob].map((o, i)=>{
+            if('methode' + ob in this){
+                if (ob === 'hlw' || ob === 'wlt') {
+                    this['methode' + ob](o.elemet, o.proportion, o.target);
+                } if (ob === 'alo' && ob !== 'hlw' && ob !== 'wlt') {
+                    this['methode' + ob](o.stack);
+                }
+                else {
+                    this['methode' + ob](o.elemet, o.proportion, o.target);
+                }
+                
+            } else {
+                console.error('methode' + ob + ' not support');
+            }
+        });
+    });
+}
+/* Height like width */
+SJ.prototype.methodehlw = function(e, p){
+    e.style.height = e.offsetWidth * p + 'px';
+}
+/* Height like target */
+SJ.prototype.methodehlt = function(e, p, t){
+    let th = t.offsetHeight;
+    e.style.height = th * p + 'px';
+}
+/* Height like target */
+SJ.prototype.methodewlt = function(e, p, t){
+    let th = t.offsetWidth;
+    e.style.width = th * p + 'px';
+}
+/* Width like height */
+SJ.prototype.methodewlh = function(e, p){
+    e.style.width = e.offsetHeight * p + 'px';
+}
+/* All in One */
+SJ.prototype.methodealo = function(s){
+    let max = Math.max.apply(null, s.map((e)=> { return e.offsetHeight }));
+    s.map((e) => { e.style.height = max + 'px'; } );
+}
+SJ.prototype.windowResize = function(){
+    window.addEventListener('resize', ()=>{this.init();}, false);    
+}
+
+
+
+console.timeEnd('SJ');
+
