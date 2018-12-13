@@ -4,6 +4,7 @@
  * Copyright 2018 Xakplant.ru
  * Licensed under MIT (https://github.com/xakplant/stickjaw/blob/master/LICENSE)
  */
+console.time('Парсинг');
 const SJ_HLW_SELECTOR = '[data-proportion-h]';
 const SJ_WLH_SELECTOR = '[data-proportion-w]';
 const SJ_HLT_SELECTOR = '[data-proportion-targer-h]';
@@ -324,3 +325,4 @@ SJ.prototype.writeHystory = function(sj_element, sj_methode, sj_proportion, sj_t
         );
     }
 }
+console.timeEnd('Парсинг');

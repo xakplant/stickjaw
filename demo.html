@@ -41,7 +41,7 @@
                     windowResize: true
                 }
             }*/
-            console.time('SJi');
+            console.time('Исполнение');
             var SJ_init = {
                 options: {
                     hlw: true,
@@ -61,59 +61,9 @@
             
             
             var e = new SJ(SJ_init);
-            console.timeEnd('SJi');
+            console.timeEnd('Исполнение');
             
             
-            SJ.loop([
-                        {
-                            method: 'hlw',
-                            currentTarget: 'my',
-                            proportion: 2,
-                            target: null
-                        },
-                        {
-                            method: 'wlh',
-                            currentTarget: 'sT',
-                            proportion: 2,
-                            target: null
-                        },
-                        {
-                            method: 'hlt',
-                            currentTarget: 'sT',
-                            proportion: 2,
-                            target: 'appone'
-                        },
-                        {
-                            method: 'wlt',
-                            currentTarget: 'sT',
-                            proportion: 2,
-                            target: 'appone'
-                        }
-                ]);
-            
-            function progress(prop){
-                SJ.loop([{method: 'hlw',
-                    currentTarget: 'my',
-                    proportion: prop,
-                    target: null}]);
-            }
-            
-            var prop = 0.01;
-            
-            window.addEventListener('load', function(){
-            
-                        
-                   setInterval(function(){
-                       if(prop <= 2){
-                           progress(prop);
-                            prop = prop + 0.01;
-                       }
-                    
-
-                }, 1, prop);
-
-
-            }, false);
             
             
         </script>

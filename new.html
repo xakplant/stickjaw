@@ -16,8 +16,8 @@
             <div data-proportion-targer-w="1" data-proportion-target="appone" style="height:120px; background:#333;"></div>
         </div>
         
-        <div style="widht:100%; display:block;">
-            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.8" style="width:30%; background:#333;"></div>
             <div data-proportion-h="1" style="width:30%; background:#333;"></div>
             <div data-proportion-h="1" style="width:30%; background:#333;"></div>
         </div>
@@ -26,15 +26,122 @@
         <div style="width: 20px; background-color: aqua" data-proportion-targer-oh="1" data-proportion-target-oh="sT" data-proportion-targer-ow="1" data-proportion-target-ow="appones"></div>
         
         <div id="my" style="width: 20px; background-color: aqua"></div>
-        
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+        <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+               <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+               <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+               <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+               <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+               </div>
+               <div data-parent-alo="default" style="widht:100%; display:block;">
+            <div data-proportion-h="0.5" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+            <div data-proportion-h="1" style="width:30%; background:#333;"></div>
+        </div>
+                
         <script src="SJ_new.js"></script>
         <script>
-            console.time('SJ_i');
+            console.time('Исполенение');
             
-            var e = new SJ(); 
-          
+             
+                new SJ({
+                    options: {
+                        hlw: true,
+                        wlh: true,
+                        hlt: true,
+                        wlt: true,
+                        alo: true,
+                        ohlt: true,
+                        owlt: true
+                    },
+                    settings: {
+                        windowResize: true, // Выполнять заново при изменении экрана
+                        writeHystory: true // Писать историю
+                    }
+                });
             
-            console.timeEnd('SJ_i');
+            console.timeEnd('Исполенение'); 
+            
+
+            
+            SJ.loop([
+                        {
+                            method: 'hlw',
+                            currentTarget: '#my',
+                            proportion: 2,
+                            target: null
+                        },
+                        {
+                            method: 'wlh',
+                            currentTarget: '#sT',
+                            proportion: 2,
+                            target: null
+                        },
+                        {
+                            method: 'hlt',
+                            currentTarget: '#sT',
+                            proportion: 2,
+                            target: '#appone'
+                        },
+                        {
+                            method: 'wlt',
+                            currentTarget: '#sT',
+                            proportion: 2,
+                            target: '#appone'
+                        }
+                ]);
+            
+
+            
         </script>
     </body>
 </html>
