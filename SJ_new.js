@@ -29,6 +29,8 @@ var SJ = function(obj = null){
        owt: 'data-proportion-target-ow',
     };
     
+    this.BreakPointBuffer = new Object();
+    
     if(obj !== null){
         
         if (obj.options == undefined) {
@@ -62,7 +64,7 @@ var SJ = function(obj = null){
 
         
     }
-    
+
     return this;
 }
 SJ.prototype.getSelectorKeys = function(){
@@ -102,11 +104,14 @@ SJ.prototype.createDataModel = function(NodeList, method){
            o = {
                 elemet: e,
                 method: method,
-                proportion: e.getAttribute(this.cSelectors[method]),
+                proportions: this.getProportions(e.getAttribute(this.cSelectors[method])),
                 target: this.getTargetByElementmethod(e, method)
             } 
         }
-        dataModelArray.push(o);
+        let i = dataModelArray.push(o);
+        if(e.getAttribute(this.cSelectors[method]).includes('@')){
+               this.getRubberElements(e, method, i);
+        }
     });
     return dataModelArray;
 }
@@ -142,12 +147,13 @@ SJ.prototype.init = function(){
             }
             if('method' + ob in this){
                 if (ob === 'hlt' || ob === 'wlt') {
-                    this['method' + ob](o.elemet, o.proportion, o.target);
+                    let p = o.proportions
+                    this['method' + ob](o.elemet, p, o.target);
                 } if (ob === 'alo' && ob !== 'hlw' && ob !== 'wlt') {
                     this['method' + ob](o.stack);
                 }
                 else {
-                    this['method' + ob](o.elemet, o.proportion, o.target);
+                    this['method' + ob](o.elemet, o.proportions, o.target);
                 }
                 
             } else {
@@ -160,7 +166,7 @@ SJ.prototype.init = function(){
 /* Height like width */
 SJ.prototype.methodhlw = function(e, p, m){
     let v = e.offsetWidth * p;
-    e.style.height = v * p + 'px';
+    e.style.height = v + 'px';
 }
 /* Height like target */
 SJ.prototype.methodhlt = function(e, p, t, m){
@@ -186,7 +192,7 @@ SJ.prototype.windowResize = function(){
         if(this.windowResizeToggle === false){
            this.windowResizeToggle = true;
             setTimeout(()=>{
-                console.time('wr');
+                this.updateBreakPointBuffer();
                 this.init();
                 this.windowResizeToggle = false;
                 console.timeEnd('wr');
@@ -219,6 +225,76 @@ SJ.__proto__.loop = function(arr){
     e.addEventListener('SjElementEvent', ()=>{ console.log(SjElementEvent); });
     e.dispatchEvent(SjElementEvent);
 }*/
+SJ.prototype.getProportions = function(s){
+    let test = parseInt(s);
+    if(isNaN(test)){
+        
+        if(s.substr(-1) === ';'){
+            console.log(s.substr(-1));
+            s = s.substring(0, s.length - 1)
+        }
+        
+        let p = this.parseProportions(s);
+        let size = screen.width;
+        let kp = Object.keys(p);
+        kp = kp.map((k, i, a)=>{
+            return k.replace('@', '');
+        }); 
+        
+        function psort(a, b) {
+          a = parseInt(a);
+          b = parseInt(b);
+          if (a > b)return 1;
+          if (a < b)return -1;
+        }
+        kp = kp.sort(psort);   
+        kp = kp.filter( k => k < size);
+        kp = kp[kp.length - 1];
+    
+        
+        return p['@'+kp];
+    } else {
+        return test;
+    }
+}
+SJ.prototype.parseProportions = function(s){
+    let p = new Object();
+    let pF = s.split(';');
+    pF.map((i)=>{
+       i = i.split(':');
+       p[i[0]] = i[1];    
+    });
+    return p;
+    
+}
+SJ.prototype.getRubberElements = function(e, m, i){
+    let o;
+    o = {
+        elemet: e,
+        method: m,
+        proportions: this.getProportions(e.getAttribute(this.cSelectors[m])),
+        target: this.getTargetByElementmethod(e, m),
+        index: i
+    };
+    if(Array.isArray(this.BreakPointBuffer[m])){
+        this.BreakPointBuffer[m].push(o);
+    } else {
+        this.BreakPointBuffer[m] = new Array();
+        this.BreakPointBuffer[m].push(o);
+    }
+    
+}
+SJ.prototype.updateBreakPointBuffer = function(){
+    let k = Object.keys(this.BreakPointBuffer);
+    k.map((e)=>{   
+        let arr = this.BreakPointBuffer[e];
+        arr.map((i)=>{
+            let newObj = new Object();
+            let { elemet, method} = this.BreakPointBuffer[e][i.index -1]
+            this.sj[e][i.index -1].proportions = this.getProportions(elemet.getAttribute(this.cSelectors[method]))
+        });
+    });
+}
  
 
 console.timeEnd('Парсинг');
