@@ -6,6 +6,15 @@
  */
 console.time('Парсинг');
 
+if (window.NodeList && !NodeList.prototype.forEach) {
+    NodeList.prototype.forEach = function (callback, thisArg) {
+        thisArg = thisArg || window;
+        for (var i = 0; i < this.length; i++) {
+            callback.call(thisArg, this[i], i, this);
+        }
+    };
+}
+
 
 var SJ = function(obj = null){
     
@@ -64,7 +73,7 @@ var SJ = function(obj = null){
 
         
     }
-
+    console.log(this);
     return this;
 }
 SJ.prototype.getSelectorKeys = function(){
@@ -131,7 +140,6 @@ SJ.prototype.getTargetByElementmethod = function(el, method){
     if(method === 'owlt'){
         return document.getElementById(el.getAttribute(this.tSelectors['owt']));
     }
-    return this;
 }
 SJ.prototype.getAloStack = function(e){
     if(e.getAttribute(this.cSelectors.alo) === 'default'){
