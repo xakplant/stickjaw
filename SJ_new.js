@@ -192,6 +192,7 @@ SJ.prototype.windowResize = function(){
         if(this.windowResizeToggle === false){
            this.windowResizeToggle = true;
             setTimeout(()=>{
+                console.time('wr');
                 this.updateBreakPointBuffer();
                 this.init();
                 this.windowResizeToggle = false;
@@ -226,7 +227,7 @@ SJ.__proto__.loop = function(arr){
     e.dispatchEvent(SjElementEvent);
 }*/
 SJ.prototype.getProportions = function(s){
-    let test = parseInt(s);
+    let test = parseFloat(s);
     if(isNaN(test)){
         
         if(s.substr(-1) === ';'){
@@ -235,15 +236,15 @@ SJ.prototype.getProportions = function(s){
         }
         
         let p = this.parseProportions(s);
-        let size = screen.width;
+        let size = window.innerWidth;
         let kp = Object.keys(p);
         kp = kp.map((k, i, a)=>{
             return k.replace('@', '');
         }); 
         
         function psort(a, b) {
-          a = parseInt(a);
-          b = parseInt(b);
+          a = parseFloat(a);
+          b = parseFloat(b);
           if (a > b)return 1;
           if (a < b)return -1;
         }
