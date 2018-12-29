@@ -4,7 +4,7 @@
 
 Stickjaw is a small JS library for managing the proportions of blocks relative to each other. Thanks to the Stickjaw, you can make the width of a block equal to the height and back, set proportions, or make a size relative to another block. If you ever set a goal to make some html-block on the width or height of another one, or to make the height and width of the block the same, then you know that it is not always  possible and you have to spend  a lot of time on it. (javascript-library for controlling sizes, their proportionality).
 
-[Документация и примеры](https://xakplant.ru/stickjaw/)
+[Examples](https://xakplant.ru/stickjaw/)
 
 ## Installation and Initialization 
 
@@ -59,11 +59,11 @@ You should add this attribute in order to make the block height equal to its wid
 > data-proportion-h="1"
 
 ```
-<div data-proportion-h="1">Ваш контент</div>
+<div data-proportion-h="1">your content</div>
 ```
 If you want to make your block equal to the width * 2, then you simply should change the attribute value to 2:
 ```
-<div data-proportion-h="2">Ваш контент</div>
+<div data-proportion-h="2">your content</div>
 ```
 
 ### Width as height
@@ -73,13 +73,13 @@ You should add this attribute to your block in order to make a block width equal
 > data-proportion-w="1"
 
 ```
-<div data-proportion-w="1">Ваш контент</div>
+<div data-proportion-w="1">your content</div>
 ```
 
 If you want to make your block equal to the height * 2, then you simply should change the attribute value to 2:
 
 ```
-<div data-proportion-w="2">Ваш контент</div>
+<div data-proportion-w="2">your content</div>
 ```
 
 ### Make the height same as another block has
