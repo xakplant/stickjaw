@@ -7,9 +7,20 @@
         div { display: inline-block;}
     </style>
     <body>
+        <div data-parent-alo=".de > *">
+            <div class="de">
+                <div style="height: 20px;background-color: aqua">Привет1</div>
+            </div>
+            <div class="de">
+                <div style="height: 30px;background-color: aqua">Привет1</div>
+            </div>            
+        </div>
+
+      
+       <div deb="1" id="appones" data-proportion-h="@0:u;@300:2;@500:3;@700:4;@1200:u" style="width:120px; background:#f60;">Привет</div>
         <div>
-            <div id="appones" data-proportion-h="@0:1;@568:1.5;@768:2;@1280:3" style="width:120px; background:#f60;"></div>
-            <div id="appone" data-proportion-w="@0:1;@768:2" style="height:120px; background:#333;"></div>
+            
+            <div id="appone" data-proportion-w="@0:1;@300:2" style="height:120px; background:#333;"></div>
 
             <div data-proportion-targer-h="1" data-proportion-target="appone" style="width:120px; background:#333;"></div>
 

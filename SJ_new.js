@@ -1,5 +1,5 @@
 /*!
- * Stickjaw v1.0.0 (https://xakplant.ru/stickjaw)
+ * Stickjaw v0.5.0 (https://xakplant.ru/stickjaw)
  * Copyright 2018 Boris Cherepanov
  * Copyright 2018 Xakplant.ru
  * Licensed under MIT (https://github.com/xakplant/stickjaw/blob/master/LICENSE)
@@ -73,7 +73,6 @@ var SJ = function(obj = null){
 
         
     }
-    console.log(this);
     return this;
 }
 SJ.prototype.getSelectorKeys = function(){
@@ -144,7 +143,9 @@ SJ.prototype.getTargetByElementmethod = function(el, method){
 SJ.prototype.getAloStack = function(e){
     if(e.getAttribute(this.cSelectors.alo) === 'default'){
         return Array.from(e.children);  
-    }  
+    } else {
+        return Array.from(e.querySelectorAll(e.getAttribute(this.cSelectors.alo)));
+    }
 }
 SJ.prototype.init = function(){
     let obj = Object.keys(this.sj);
@@ -173,20 +174,36 @@ SJ.prototype.init = function(){
 }
 /* Height like width */
 SJ.prototype.methodhlw = function(e, p, m){
+    if(p === 'u'){
+        e.style.height = '';
+        return;
+    } 
     let v = e.offsetWidth * p;
     e.style.height = v + 'px';
 }
 /* Height like target */
 SJ.prototype.methodhlt = function(e, p, t, m){
+    if(p === 'u'){
+        e.style.height = '';
+        return;
+    } 
     let th = t.offsetHeight;
     e.style.height = th * p + 'px';
 }
 /* Width like height */
 SJ.prototype.methodwlh = function(e, p, m){
+    if(p === 'u'){
+        e.style.width = '';
+        return;
+    } 
     e.style.width = e.offsetHeight * p + 'px';
 }
 /* Width like target */
 SJ.prototype.methodwlt = function(e, p, t, m){
+    if(p === 'u'){
+        e.style.width = '';
+        return;
+    } 
     let th = t.offsetWidth;
     e.style.width = th * p + 'px';
 }
@@ -200,11 +217,9 @@ SJ.prototype.windowResize = function(){
         if(this.windowResizeToggle === false){
            this.windowResizeToggle = true;
             setTimeout(()=>{
-                console.time('wr');
                 this.updateBreakPointBuffer();
                 this.init();
                 this.windowResizeToggle = false;
-                console.timeEnd('wr');
             }, 100);
             
         }   
@@ -224,32 +239,21 @@ SJ.__proto__.loop = function(arr){
         }
     });
 }
-/* Element, Method, Value */
-/*SJ.prototype.sjEventListener = function(e, m, v){
-    let SjElementEvent = new CustomEvent('SjElementEvent', { detail: {
-        element: e,
-        methode: m,
-        value: v
-    } });
-    e.addEventListener('SjElementEvent', ()=>{ console.log(SjElementEvent); });
-    e.dispatchEvent(SjElementEvent);
-}*/
 SJ.prototype.getProportions = function(s){
+    
     let test = parseFloat(s);
     if(isNaN(test)){
         
         if(s.substr(-1) === ';'){
-            console.log(s.substr(-1));
             s = s.substring(0, s.length - 1)
         }
         
         let p = this.parseProportions(s);
-        let size = window.innerWidth;
+        let size = window.outerWidth;
         let kp = Object.keys(p);
         kp = kp.map((k, i, a)=>{
             return k.replace('@', '');
         }); 
-        
         function psort(a, b) {
           a = parseFloat(a);
           b = parseFloat(b);
@@ -299,7 +303,7 @@ SJ.prototype.updateBreakPointBuffer = function(){
         let arr = this.BreakPointBuffer[e];
         arr.map((i)=>{
             let newObj = new Object();
-            let { elemet, method} = this.BreakPointBuffer[e][i.index -1]
+            let { elemet, method} = this.BreakPointBuffer[e][i.index -1];            
             this.sj[e][i.index -1].proportions = this.getProportions(elemet.getAttribute(this.cSelectors[method]))
         });
     });
