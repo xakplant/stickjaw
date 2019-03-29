@@ -52,7 +52,7 @@ class SJs {
 
             // Сбор элементов
             window.addEventListener('DOMContentLoaded', ()=>this.getElements());
-            window.addEventListener('DOMContentLoaded', ()=> this.init());
+            window.addEventListener('load', ()=> this.init());
 
 
             // Использовать пересчёт размеров на window.onresize
