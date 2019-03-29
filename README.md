@@ -2,36 +2,36 @@
 
 ![Stickjaw logo](https://xakplant.ru/wp-content/uploads/2018/08/xakpl_stickjaw1.png)
 
-Stickjaw — это маленькая JS библиотека для управления пропорциями блоков относительно друг-друга. Благодаря the Stickjaw вы можете делать ширину блока равную высоте и обратно, задавать пропорции или делать размер относительно другого блока. Если вы хоть раз задавались целью сделать какой-то html-блок по высоте или ширине другого или сделать высоту и ширину блока одинаковой то вы знаете что не всегда это удаётся и приходиться потратить много времени на это. (javascript-library for controlling block sizes, their proportionality).
+Stickjaw is a small JS library for managing the proportions of blocks relative to each other. Thanks to the Stickjaw, you can make the width of a block equal to the height and back, set proportions, or make a size relative to another block. If you ever set a goal to make some html-block on the width or height of another one, or to make the height and width of the block the same, then you know that it is not always  possible and you have to spend  a lot of time on it. (javascript-library for controlling sizes, their proportionality).
 
-[Документация и примеры](https://xakplant.ru/stickjaw/)
+[Examples](https://xakplant.ru/stickjaw/)
 
-## Установка и инициализация
+## Installation and Initialization 
 
-Скачайте Stickjaw в папку с вашим проектом и подключите в футере
+Firstly download Stickjaw to your project folder and plug into the footer.
 
-Далее создайте новый скрипт после подключения Stickjaw и объявите объект с опциями
+Then, after connecting Stickjaw, you need to create a new script and declare an object with options. 
 
 ```JS
 <script>
     var SJ_setiings = {
                 options: {
-                    hlw: true, // Высота как ширина
-                    wlh: true, // Ширина как высота
-                    hlt: true, // Высотка как у другого блока
-                    wlt: true, // Ширина как у другого блока
-                    alo: true, // Высота у всех блоков родителя одинаковая
+                    hlw: true, // Height as width
+                    wlh: true, // Width as height
+                    hlt: true, // Width of the target element (target id is the same as for height)
+                    wlt: true, // Height of the target element (target id is the same as for width)
+                    alo: true, // All elements as one (height)
                 },
                 settings: {
-                    windowResize: true, // Выполнять заново при изменении экрана
-                    writeHystory: true // Писать историю
+                    windowResize: true, 
+                    writeHystory: true 
                 }
             }
     var sj = new SJ(SJ_setiings);
 </script>
 ```
 
-Вы можете не объявлять объект SJ_settings и заместо предыдущего вызова воспользоваться этим
+You cannot declare the object SJ_settings and instead of the previous call to use this: 
 
 
 ```JS
@@ -40,7 +40,7 @@ Stickjaw — это маленькая JS библиотека для управ
 </script>
 ```
 
-Будьте внимательны. При таком вызове Stickjaw не реагирует на изменение размера экрана. Если вы, всё же хотите чтобы Stickjaw срабатывал на изменение экрана то используйте такой вызов
+Be careful. If you use that call, Stickjaw does not respond to screen resizing. If you still want Stickjaw to work on changing the screen size then use this call:
  ```JS
  var sj = new SJ({
                 settings: {
@@ -49,97 +49,95 @@ Stickjaw — это маленькая JS библиотека для управ
             });
 ```
 
-## Использование
+## Using
 
-Использовать Stickjaw просто. Нужно лишь добавить соответствующий атрибут
+Stickjaw is easy to use. You should just add the corresponding attribute.
 
-### Высота как ширина
-Чтобы сделать высота блока равной его ширине нужно добавить атрибут:
+### Height as width
+You should add this attribute in order to make the block height equal to its width:
 
 > data-proportion-h="1"
 
 ```
-<div data-proportion-h="1">Ваш контент</div>
+<div data-proportion-h="1">your content</div>
 ```
-Если вы хотите сделать так, чтобы ваш блок был равен ширина * 2 то просто измениет значение атрибута на 2
+If you want to make your block equal to the width * 2, then you simply should change the attribute value to 2:
 ```
-<div data-proportion-h="2">Ваш контент</div>
+<div data-proportion-h="2">your content</div>
 ```
 
-### Ширина как высота
+### Width as height
 
-Чтобы сделать ширину блока равную его высторе добавьте атрибут к вашему блоку.
+You should add this attribute to your block in order to make a block width equal to its height:
 
 > data-proportion-w="1"
 
 ```
-<div data-proportion-w="1">Ваш контент</div>
+<div data-proportion-w="1">your content</div>
 ```
 
-Если вы хотите сделать так, чтобы ваш блок был равен высота * 2 то просто измениет значение атрибута на 2
+If you want to make your block equal to the height * 2, then you simply should change the attribute value to 2:
 
 ```
-<div data-proportion-w="2">Ваш контент</div>
+<div data-proportion-w="2">your content</div>
 ```
 
-### Сделать высоту как у другого блока
+### Make the height same as another block has
 
-Для этого вам нужно задать идентификатор элемента относительно которого вы хотите установить высоту вашего болока. После к вашему блоку нужно добавить атрибуты
+To do this, you need to set the element identifier relative to which you want to set the height of your block. After that you need to add attributes to your block:
 
 > data-proportion-targer-h="1" data-proportion-target="targetID"
 
-targetID - это идентификатор элемента относительно которого вы хотите установить высоту.
+targetID is the item identifier relative to which you want to set the height.
 
-Пример
+Example:
 
 ```HTML
 
 <div data-proportion-targer-h="1" data-proportion-target="targetID" style="width:120px; background:#333;"></div>
 
-<div id="targetID" height="100px"></div><!-- Блок относительно которого мы выставляем высоту -->
-
+<div id="targetID" height="100px"></div>
 ```
 
-### Сделать ширину как у другого блока
+### Make the width same as another block has
 
-Для этого вам нужно задать идентификатор элемента относительно которого вы хотите установить ширину вашего болока. После к вашему блоку нужно добавить атрибуты
+To do this, you need to specify the identifier of the element for which you want to set the width of your block. After that you need to add attributes to your block:
 
 > data-proportion-targer-w="1" data-proportion-target="targetID"
 
-targetID - это идентификатор элемента относительно которого вы хотите установить высоту.
+targetID is the item identifier relative to which you want to set the height.
 
-Пример
+Example:
 
 ```HTML
 
 <div data-proportion-targer-w="1" data-proportion-target="targetID" style="height:120px; background:#333;"></div>
 
-<div id="targetID" width="100px"></div><!-- Блок относительно которого мы выставляем ширину -->
+<div id="targetID" width="100px"></div>
 
 ```
 
-#### Раздельные целевые елементы у высоты и ширины.
+#### Separate target elements at height and width
 
-Если вы будете использовать 
+If you use:
 >data-proportion-targer-w="1" data-proportion-targer-w="1" data-proportion-target="targetID"
 
-то элемент будет тех же размеров что и targetID. Но чтоже делать если высота должна равняться на один елемент, а ширина на другой?
-Используйте эти селекторы для ширины:
+then the element will be the same size as the targetID. But what should you do if the height should be equal to one element, and the width to another? Use these selectors for the width: 
 >data-proportion-targer-ow="1" data-proportion-target-ow="targetIdOW"
 
-А для высоты используйте:
+And for height you can use:
 >data-proportion-targer-oh="1" data-proportion-target-oh="targetIdOH"
 
 
 
-### Сделать высоту всех элементов одинаковой
+### How to make the height of all elements the same
 
-Stickjaw умеет делать одинаковую высоту всех блоков в у родителя одинаковой. Чтобы это сделать нужно у родителя в атрибутах указа:
+Stickjaw can do the same height of all blocks in the parent block. To do this, you need to specify in the attributes of the parent block: 
 
-В случает если "дети" блоки не имееют вложенности
+In case "children" blocks don't have hierarchy
 >data-parent-alo="default"
 
-Пример
+Example:
 
 ```HTML
 
@@ -152,9 +150,9 @@ Stickjaw умеет делать одинаковую высоту всех бл
 
 ```
 
-Если дети имеют много уровней вложенности нужно указать цепочку селекторов после родителя включая селекторы детей. 
+If children have many levels of hierarchy, you need to specify a chain of selectors after the parent including selectors of children.
 
-Пример
+Example:
 
 ```HTML
 <div class="row" data-parent-alo=".col-lg-6 .card">
@@ -169,37 +167,37 @@ Stickjaw умеет делать одинаковую высоту всех бл
     </div>
 </div>
 ```
->data-parent-alo="цепочка селекторов после родителя включая селектор ребёнка"
+>data-parent-alo="selector chain after parent including child selector"
 
-## Очерёдность выполнения инструкций в Stickjaw
+## The order of execution of instructions in Stickjaw
 
-В Stickjaw есть порядок исполнения инструкций, следовательно размеры блоков будут исполняться в определённом порядке.
+In Stickjaw there is an order of execution of instructions, therefore the sizes of blocks will be executed in a certain order.
 ```HTML
-1. hlw //Высота как ширина
-2. wlh // Ширина как высота
-3. hlt // Высота у целевого элемента (id цели такое же как для ширины)
-4. wlt // Ширина у целевого элемента (id цели такое же как для высоты)
-5. ohlt // Высота у целевого элемента (id цели раздельно с шириной)
-6. owlt // Ширина у целевого элемента (id цели раздельно с высотой)
-7. alo // Все элементы как один 
+1. hlw // Height as width
+2. wlh // Width as height
+3. hlt // Height of the target element (target id is the same as for width)
+4. wlt // Width of the target element (target id is the same as for height)
+5. ohlt // Height of the target element (target id is separate with width)
+6. owlt // Width of the target element (target id is separate with height)
+7. alo // All elements as one
 ```
 
-Это накладывает определённые неудобства. Иногда нужно задать определённую очерёдность. Для этого есть метод SJ.loop();
+It can be a reason of certain inconveniences. Sometimes you need to specify a specific sequence. So there is a method SJ.loop ();
 
 ### loop()
 
-Этот метод принимает массив с объектами. Объекты имеют следующую структуру:
+This method takes an array with objects. Objects have the following structure:
 
 ```HTML
 {
-  method: 'hlw',              // Метод который будем применять к элементу
-  currentTarget: 'elemetId',  // Id елемента который будем преобразовывать
-  proportion: 2,              // Пропорциональность 
-  target: 'targetId'          // Id элемента на который будем "равняться" (необязательный для методов hlw и wlt)
+  method: 'hlw',              // The method that we will apply to the element
+  currentTarget: 'elemetId',  // The element id to convert
+  proportion: 2,              // Proportionality 
+  target: 'targetId'          // The id of the element we are trying to look like (необязательный для методов hlw и wlt)
 }
 ```
 
-#### Пример использования
+#### Usage example
 
 ```HTML
 SJ.loop([{
@@ -210,34 +208,32 @@ SJ.loop([{
 }]);
 ```
 
-Можно добавить сколько угодно элементов. При этом они будут выполняться по очереди. 
+You can add as many elements as you want. In this case, they will be performed in turn.
 
-#### Доступные методы для .loop()
+#### Available methods for .loop()
 
 ```html
-hlw // Высота как ширина
-wlh // Ширина как высота
-hlt // Высота как у целевого элемента
-wlt // Ширина как у целевого элемента
+hlw 
+wlh 
+hlt 
+wlt 
 ```
 
-Метод .loop() весьма интересный. С помощью него вы например можете сделать progressbar. В этом случае id цели будет элемент родитель до которого растёт наш елемент.
-Что-то типо того есть в файле demo.html
+The .loop () method is quite interesting. You can make a progressbar, for example, using it. In this case, the target id will be the parent element to which our element grows. Something like that is in the file demo.html
 
-### История
+### History
 
-В версии 0.4.0 появилась запись истории использования Stickjaw
-Чтобы включить сохранение истории вы должны в объект settings добавить 
+In version 0.4.0, a record of the usage history of Stickjaw appeared. To enable history saving, you must add to the settings object 
 
 >writeHystory: true
 
-#### Пример
+#### Example
 
 ```HTML
 new SJ(
     settings: {
-        windowResize: true, // Выполнять заново при изменении экрана
-        writeHystory: true // Писать историю
+        windowResize: true, 
+        writeHystory: true // write hystory
     }
 );
 
@@ -246,4 +242,4 @@ new SJ(
 
 ## PS
 
-Очень надеюсь, что вам, пригодиться моя библиотека.
+I hope you find my library useful.
