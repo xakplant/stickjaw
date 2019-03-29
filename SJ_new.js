@@ -4,6 +4,8 @@
  * Copyright 2018 Xakplant.ru
  * Licensed under MIT (https://github.com/xakplant/stickjaw/blob/master/LICENSE)
  */
+
+
 console.time('Парсинг');
 
 if (window.NodeList && !NodeList.prototype.forEach) {
@@ -16,11 +18,7 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 }
 
 
-var SJ = function(obj = null){
-    
-    
-    
-    
+const SJ = function(obj = null){
     this.selectors = {
        hlw : '[data-proportion-h]',
        wlh : '[data-proportion-w]',
@@ -38,15 +36,23 @@ var SJ = function(obj = null){
        owt: 'data-proportion-target-ow',
     };
     
-    this.BreakPointBuffer = new Object();
+    this.BreakPointBuffer = {};
     
     if(obj !== null){
         
-        if (obj.options == undefined) {
+        if (obj.options === undefined) {
             this.getSelectorKeys();
             this.getCSelectors();
-            window.addEventListener('DOMContentLoaded', ()=> { this.getElements(); });
-            window.addEventListener('load', ()=> { this.init(); });
+            window.addEventListener('DOMContentLoaded', ()=> { 
+                console.time('get Elements');
+                this.getElements(); 
+                console.timeEnd('get Elements');
+            });
+            window.addEventListener('load', ()=> { 
+                console.time('init'); 
+                this.init(); 
+                console.timeEnd('init');
+            });
         } else {
             let nSelectors = {};
             let consKey = Object.keys(obj.options);
@@ -57,14 +63,25 @@ var SJ = function(obj = null){
                     nSelectors = Object.assign(nSelectors, o);
                 }
             });
+
+            
             this.selectors = nSelectors;
             this.getSelectorKeys();
             this.getCSelectors();
-            window.addEventListener('DOMContentLoaded', ()=> { this.getElements(); });
-            window.addEventListener('load', ()=> { this.init(); });
+            window.addEventListener('DOMContentLoaded', ()=> { 
+                console.time('get Elements');
+                this.getElements(); 
+                console.timeEnd('get Elements');
+            
+            });
+            window.addEventListener('load', ()=> { 
+                console.time('init');
+                this.init();
+                console.timeEnd('init');
+            });
         }
         
-        if(obj.settings == undefined){
+        if(obj.settings === undefined){
             
         } else {
             this.windowResizeToggle = false;
@@ -301,9 +318,9 @@ SJ.prototype.updateBreakPointBuffer = function(){
     let k = Object.keys(this.BreakPointBuffer);
     k.map((e)=>{   
         let arr = this.BreakPointBuffer[e];
-        arr.map((i)=>{
+        arr.map((i, idx)=>{
             let newObj = new Object();
-            let { elemet, method} = this.BreakPointBuffer[e][i.index -1];            
+            let { elemet, method} = this.BreakPointBuffer[e][idx];            
             this.sj[e][i.index -1].proportions = this.getProportions(elemet.getAttribute(this.cSelectors[method]))
         });
     });

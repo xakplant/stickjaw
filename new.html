@@ -5,8 +5,67 @@
     </head>
     <style>
         div { display: inline-block;}
+        .db{ display: flex;}
+        .c {background-color: aqua; align-self: center; vertical-align: middle; display: grid; align-content: center; justify-content: center}
     </style>
     <body>
+        <div style="max-width: 1200px;margin: 10px auto; display: block">
+            <table id='desc'>
+                <thead>
+                    <tr>
+                        <th>Метод</th>
+                        <th>Селектор</th>
+                        <th>Описание</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+            <h2>HLW</h2>
+            <div class="db">
+                <div class="c" style="width: 60px" data-proportion-h="1">
+                    1:1
+                </div>
+            </div>
+            
+            <h2>WLH</h2>
+            <div class="db">
+                <div class="c" style="background: red; height: 60px" data-proportion-w="1">
+                    1:1
+                </div>
+            </div>
+            <div><textarea>
+&lt;div class&#x3D;&quot;c&quot; style&#x3D;&quot;background: red; height: 60px&quot; data-proportion-w&#x3D;&quot;1&quot;&gt;
+   1:1
+&lt;&#x2F;div&gt;
+            </textarea></div>
+        </div>
+        <script>
+            const data = [{
+                methode:'alo',
+                selector:'data-aprent-alo',
+                'description':'Ghjc'
+            }];
+            (function(data){
+                const table = document.getElementById('desc').querySelector('tbody');
+                let htmlString = '';
+                data.map((i)=>{
+                    let k = Object.keys(i);
+                    let subHtmlString = '';
+                    k.map((c)=>{
+                        
+                        subHtmlString += `<td>${i[c]}</td>`;
+                    });
+                    htmlString += `<tr>${subHtmlString}</tr>`;
+                });
+                table.innerHTML = htmlString;
+            })(data);
+        </script>
+        
+        
+        
+        
+       
         <div data-parent-alo=".de > *">
             <div class="de">
                 <div style="height: 20px;background-color: aqua">Привет1</div>
@@ -17,7 +76,7 @@
         </div>
 
       
-       <div deb="1" id="appones" data-proportion-h="@0:u;@300:2;@500:3;@700:4;@1200:u" style="width:120px; background:#f60;">Привет</div>
+       <div deb="1" id="appones" data-proportion-h="@0:u;@300:2;@500:3;@700:4;@1200:1" style="width:120px; background:#f60;">Привет</div>
         <div>
             
             <div id="appone" data-proportion-w="@0:1;@300:2" style="height:120px; background:#333;"></div>
@@ -100,35 +159,82 @@
         </div>
                 
         <script src="SJ_new.js"></script>
+        <script src="security.js"></script>
         <script>
-            console.time('Исполенение');
+            // console.time('Исполенение');
             
              
-                var e = new SJ({
-                    options: {
-                        hlw: true,
-                        wlh: true,
-                        hlt: true,
-                        wlt: true,
-                        alo: true,
-                        ohlt: true,
-                        owlt: true
-                    },
-                    settings: {
-                        windowResize: true, // Выполнять заново при изменении экрана
-                        writeHystory: true // Писать историю
-                    }
-                });
+            //     var e = new SJ({
+            //         options: {
+            //             hlw: true,
+            //             wlh: true,
+            //             hlt: true,
+            //             wlt: true,
+            //             alo: true,
+            //             ohlt: true,
+            //             owlt: true
+            //         },
+            //         settings: {
+            //             windowResize: true, // Выполнять заново при изменении экрана
+            //             writeHystory: true // Писать историю
+            //         }
+            //     });
             
-            console.timeEnd('Исполенение'); 
+            // console.timeEnd('Исполенение'); 
             
 
             
-            SJ.loop([
+            // SJ.loop([
+            //             {
+            //                 method: 'hlw',
+            //                 currentTarget: '#my',
+            //                 proportion: 2,
+            //                 target: null
+            //             },
+            //             {
+            //                 method: 'wlh',
+            //                 currentTarget: '#sT',
+            //                 proportion: 2,
+            //                 target: null
+            //             },
+            //             {
+            //                 method: 'hlt',
+            //                 currentTarget: '#sT',
+            //                 proportion: 2,
+            //                 target: '#appone'
+            //             },
+            //             {
+            //                 method: 'wlt',
+            //                 currentTarget: '#sT',
+            //                 proportion: 2,
+            //                 target: '#appone'
+            //             }
+            //     ]);
+            
+            
+
+            
+let ez = new SJs({
+    options: {
+        hlw: true,
+        wlh: true,
+        hlt: true,
+        wlt: true,
+        alo: true,
+        ohlt: true,
+        owlt: true
+    },
+    settings: {
+        windowResize: true,
+        writeHistory: true
+    } 
+});
+
+SJs.loop([
                         {
                             method: 'hlw',
                             currentTarget: '#my',
-                            proportion: 2,
+                            proportion: 4,
                             target: null
                         },
                         {
@@ -150,8 +256,6 @@
                             target: '#appone'
                         }
                 ]);
-            
-
             
         </script>
     </body>
